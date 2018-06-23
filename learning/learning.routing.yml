@@ -1,0 +1,23 @@
+learning.first:
+  path: '/first'
+  defaults:
+    _controller: \Drupal\learning\Controller\LearningController::first_page
+    _title: 'Welcome Arulraj'
+  requirements:
+    _permission: 'access content'
+
+learning.sampleform:
+  path: '/sample-form'
+  defaults:
+    _form: \Drupal\learning\Form\SampleForm
+    _title: 'Sample Form'
+  requirements:
+    _permission: 'access content'
+
+learning.samplesettingform:
+  path: '/sample-setting-form'
+  defaults:
+    _form: \Drupal\learning\Form\SampleSettingForm
+    _title: 'Sample Setting Form'
+  requirements:
+    _permission: 'access content'

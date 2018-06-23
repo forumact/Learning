@@ -1,0 +1,36 @@
+<?php
+
+/**
+ * @file
+ * Contains learning.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function learning_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the learning module.
+    case 'help.page.learning':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('I have started new module to learn drupal 8') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function learning_theme() {
+  return [
+    'learning' => [
+      'render element' => 'children',
+      'variables' => ['test_var' => NULL],
+    ],
+  ];
+}
