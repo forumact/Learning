@@ -21,3 +21,11 @@ learning.samplesettingform:
     _title: 'Sample Setting Form'
   requirements:
     _permission: 'access content'
+
+learning.dynamic_data:
+  path: '/dynamic_data'
+  defaults:
+    _controller: \Drupal\learning\Controller\LearningController::dynamic_data
+    _title: 'Welcome to Dynamic Page'
+  requirements:
+    _permission: 'view learning page'
