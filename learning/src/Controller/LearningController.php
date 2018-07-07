@@ -14,7 +14,8 @@ class LearningController extends ControllerBase {
 
   public function first_page() {
 
-    $userCurrent = \Drupal::currentUser();
+    $userCurrent = $this->currentUser();
+    //echo '<pre>'; print_r($userCurrent);
     $name = $userCurrent->getUsername();
     $renderable = [
       '#theme' => 'learning',
