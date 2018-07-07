@@ -1,0 +1,159 @@
+<?php
+
+/**
+ * @file
+ * Install file for migrate example module.
+ *
+ * Set up source data and destination configuration for the migration example
+ * module. We do this in a separate module so migrate_example itself is a pure
+ * migration module.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function migratedata_schema() {
+  $schema['wordpress_user_table'] = wordpress_user_table_schema_account();  
+  return $schema;
+}
+
+/**
+ * Implements hook_install().
+ */
+function migratedata_install() {
+  // Populate our tables.
+  wordpress_user_table_data_account();  
+}
+
+/**
+ * The hook_schema definition for account.
+ *
+ * @return array
+ *   The schema definition.
+ */
+function wordpress_user_table_schema_account() {
+  return [
+    'description' => 'Beers accounts.',
+    'fields' => [
+      'aid'  => [
+        'type' => 'serial',
+        'not null' => TRUE,
+        'description' => 'Account ID',
+      ],
+      'status'  => [
+        'type' => 'int',
+        'not null' => TRUE,
+        'description' => 'Blocked_Allowed',
+      ],
+      'registered' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'description' => 'Registration date',
+      ],
+      'username' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+        'description' => 'Account name (for login)',
+      ],
+      'nickname' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+        'description' => 'Account name (for display)',
+      ],
+      'password' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+        'description' => 'Account password (raw)',
+      ],
+      'email' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+        'description' => 'Account email',
+      ],
+      'sex' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'description' => 'Gender (0 for male, 1 for female)',
+      ],
+      'beers' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+        'description' => 'Favorite Beers',
+      ],
+    ],
+    'primary key' => ['aid'],
+  ];
+}
+
+/**
+ * Populate account table.
+ *
+ * Note that alice has duplicate username. Exercises dedupe_entity plugin.
+ * TODO duplicate email also.
+ */
+function wordpress_user_table_data_account() {
+  $fields = [
+    'status',
+    'registered',
+    'username',
+    'nickname',
+    'password',
+    'email',
+    'sex',
+    'beers',
+  ];
+  $query = db_insert('wordpress_user_table')
+    ->fields($fields);
+  $data = [
+    [
+      1,
+      '2010-03-30 10:31:05',
+      'alice',
+      'alice in beerland',
+      'alicepass',
+      'alice@example.com',
+      '1',
+      '99999999|99999998|99999997',
+    ],
+    [
+      1,
+      '2010-04-04 10:31:05',
+      'alice',
+      'alice in aleland',
+      'alicepass',
+      'alice2@example.com',
+      '1',
+      '99999999|99999998|99999997',
+    ],
+    [
+      0,
+      '2007-03-15 10:31:05',
+      'bob',
+      'rebob',
+      'bobpass',
+      'bob@example.com',
+      '0',
+      '99999999|99999997',
+    ],
+    [
+      1,
+      '2004-02-29 10:31:05',
+      'charlie',
+      'charlie chocolate',
+      'mykids',
+      'charlie@example.com',
+      '0',
+      '99999999|99999998',
+    ],
+  ];
+  foreach ($data as $row) {
+    $query->values(array_combine($fields, $row));
+  }
+  $query->execute();
+}
