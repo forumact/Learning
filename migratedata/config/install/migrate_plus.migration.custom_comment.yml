@@ -30,6 +30,7 @@ process:
     source: aid
   name: name
   mail: mail
+  cid: cid
   status:
     plugin: default_value
     default_value: 1
