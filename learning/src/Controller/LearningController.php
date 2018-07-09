@@ -11,6 +11,7 @@ namespace Drupal\learning\Controller;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Database\Connection;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Url;
 
 class LearningController extends ControllerBase {
 
@@ -76,6 +77,25 @@ class LearningController extends ControllerBase {
       '#empty' => t('No users found'),
     ];
     return $build;
+  }
+
+  public function service_call() {
+    $book_list = \Drupal::service('learning.listbooks')->getBooks();
+
+    $render = NULL;
+    $rows = [];
+    $inc = 0;
+    foreach ($book_list as $book) {
+      $rows[$inc]['title'] = $book['title'];
+      $rows[$inc]['author'] = $book['author'];
+      $rows[$inc]['url'] = \Drupal::l($book['url'], Url::fromUri($book['url']));
+      $inc++;
+    }
+    return [
+      '#type' => 'table',
+      '#header' => ['title' => 'Title', 'author' => 'Author', 'url' => 'Url'],
+      '#rows' => $rows,
+    ];
   }
 
 }
