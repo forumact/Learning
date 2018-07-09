@@ -29,3 +29,11 @@ learning.dynamic_data:
     _title: 'Welcome to Dynamic Page'
   requirements:
     _permission: 'view learning page'
+
+learning.servicecall:
+  path: '/sample-service-call'
+  defaults:
+    _controller: \Drupal\learning\Controller\LearningController::service_call
+    _title: 'Sample Service Call'
+  requirements:
+    _permission: 'access content'
